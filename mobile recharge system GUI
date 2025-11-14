@@ -1,0 +1,94 @@
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+
+public class MobileRechargeAppGUI extends JFrame implements ActionListener {
+
+    private JTextField txtMobile, txtAmount;
+    private JComboBox<String> operatorBox;
+    private JButton btnConfirm;
+
+    public MobileRechargeAppGUI() {
+        // Frame settings
+        setTitle("Mobile Recharge Application");
+        setSize(400, 300);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
+        setLayout(new GridLayout(5, 2, 10, 10));
+
+        // Components
+        JLabel lblMobile = new JLabel("Mobile Number:");
+        txtMobile = new JTextField();
+
+        JLabel lblOperator = new JLabel("Select Operator:");
+        String[] operators = {"Jio", "Airtel", "VI (Vodafone Idea)", "BSNL"};
+        operatorBox = new JComboBox<>(operators);
+
+        JLabel lblAmount = new JLabel("Recharge Amount (₹):");
+        txtAmount = new JTextField();
+
+        btnConfirm = new JButton("Confirm Payment");
+        btnConfirm.addActionListener(this);
+
+        // Add components to frame
+        add(lblMobile);
+        add(txtMobile);
+        add(lblOperator);
+        add(operatorBox);
+        add(lblAmount);
+        add(txtAmount);
+        add(new JLabel("")); // Empty cell
+        add(btnConfirm);
+
+        setVisible(true);
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        String mobile = txtMobile.getText();
+        String operator = (String) operatorBox.getSelectedItem();
+        String amountText = txtAmount.getText();
+
+        // Validation
+        if (mobile.isEmpty() || amountText.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please fill all fields!", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        if (mobile.length() != 10 || !mobile.matches("\\d+")) {
+            JOptionPane.showMessageDialog(this, "Enter a valid 10-digit mobile number!", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        double amount;
+        try {
+            amount = Double.parseDouble(amountText);
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(this, "Enter a valid amount!", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // Confirmation dialog
+        int confirm = JOptionPane.showConfirmDialog(this,
+                "Recharge Details:\nMobile: " + mobile + 
+                "\nOperator: " + operator + 
+                "\nAmount: ₹" + amount +
+                "\n\nDo you want to confirm payment?",
+                "Confirm Payment", JOptionPane.YES_NO_OPTION);
+
+        if (confirm == JOptionPane.YES_OPTION) {
+            JOptionPane.showMessageDialog(this, "Recharge Successful! ✅", "Success", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(this, "Recharge Cancelled ❌", "Cancelled", JOptionPane.WARNING_MESSAGE);
+        }
+    }
+
+    public static void main(String[] args) {
+        // Set a nicer look and feel (optional)
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (Exception ignored) {}
+
+        new MobileRechargeAppGUI();
+    }
+}
