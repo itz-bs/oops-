@@ -1,0 +1,55 @@
+import java.util.Scanner;
+public class MobileRechargeApp {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Welcome to Mobile Recharge Application");
+        System.out.print("Enter your 10-digit mobile number: ");
+        String mobileNumber = sc.nextLine();
+      
+        System.out.println("\nSelect your Operator:");
+        System.out.println("1. Jio");
+        System.out.println("2. Airtel");
+        System.out.println("3. VI (Vodafone Idea)");
+        System.out.println("4. BSNL");
+        System.out.print("Enter your choice (1-4): ");
+        int operatorChoice = sc.nextInt();
+        sc.nextLine(); 
+        String operator = "";
+        switch (operatorChoice) {
+            case 1:
+                operator = "Jio";
+                break;
+            case 2:
+                operator = "Airtel";
+                break;
+            case 3:
+                operator = "VI";
+                break;
+            case 4:
+                operator = "BSNL";
+                break;
+            default:
+                System.out.println("Invalid operator choice! Exiting...");
+                return;
+        }
+
+        System.out.print("\nEnter recharge amount: ₹");
+        double amount = sc.nextDouble();
+        sc.nextLine(); 
+        
+        System.out.println("\nYou are about to recharge " + mobileNumber);
+        System.out.println("Operator: " + operator);
+        System.out.println("Amount: ₹" + amount);
+        System.out.print("Do you want to confirm payment? (yes/no): ");
+        String confirm = sc.nextLine().toLowerCase();
+
+        if (confirm.equals("yes")) {
+            System.out.println("\nProcessing your payment...");
+            System.out.println("Recharge Successfull!");
+            System.out.println("Thank you for using our service.");
+        } else {
+            System.out.println("\nRecharge cancelled");
+        }
+        sc.close();
+    }
+}
